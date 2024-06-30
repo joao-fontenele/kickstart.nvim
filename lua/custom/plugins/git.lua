@@ -5,7 +5,7 @@ vim.keymap.set('n', '<leader>gp', function()
   print 'copied relative path'
 end, { desc = 'Yank relative [P]ath of current buffer', noremap = true, silent = true })
 
-return { -- Adds git related signs to the gutter, as well as utilities for managing changes
+return {
   {
     'linrongbin16/gitlinker.nvim',
     cmd = 'GitLink',
@@ -15,7 +15,7 @@ return { -- Adds git related signs to the gutter, as well as utilities for manag
       { '<leader>gY', '<cmd>GitLink!<cr>', mode = { 'n', 'v' }, desc = 'Open [G]it link' },
     },
   },
-  {
+  { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     config = function()
       require('gitsigns').setup {
