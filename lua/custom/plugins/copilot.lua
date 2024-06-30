@@ -1,5 +1,3 @@
-local IS_DEV = false
-
 local prompts = {
   -- Code related prompts
   Explain = 'Please explain how the following code works.',

@@ -6,7 +6,7 @@ return {
     config = function()
       local lint = require 'lint'
       lint.linters_by_ft = {
-        markdown = { 'markdownlint', 'vale' },
+        markdown = { 'markdownlint' },
         ruby = { 'rubocop', 'ruby' },
         yaml = { 'yamllint' },
         shell = { 'shellcheck' },

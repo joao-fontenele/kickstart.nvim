@@ -186,6 +186,13 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 -- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
+-- yank current buffer's relative path
+vim.keymap.set('n', '<leader>p', function()
+  local filepath = vim.fn.expand '%'
+  vim.fn.setreg('+', filepath)
+  print 'copied relative path'
+end, { desc = 'Yank relative [P]ath of current buffer', noremap = true, silent = true })
+
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
 --
@@ -866,6 +873,8 @@ require('lazy').setup({
         'json',
         'xml',
         'yaml',
+        'terraform',
+        'javascript',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
