@@ -1,11 +1,18 @@
+-- yank current buffer's relative path
+vim.keymap.set('n', '<leader>gp', function()
+  local filepath = vim.fn.expand '%'
+  vim.fn.setreg('+', filepath)
+  print 'copied relative path'
+end, { desc = 'Yank relative [P]ath of current buffer', noremap = true, silent = true })
+
 return { -- Adds git related signs to the gutter, as well as utilities for managing changes
   {
     'linrongbin16/gitlinker.nvim',
     cmd = 'GitLink',
     opts = {},
     keys = {
-      { '<leader>gy', '<cmd>GitLink<cr>', mode = { 'n', 'v' }, desc = 'Yank git link' },
-      { '<leader>gY', '<cmd>GitLink!<cr>', mode = { 'n', 'v' }, desc = 'Open git link' },
+      { '<leader>gy', '<cmd>GitLink<cr>', mode = { 'n', 'v' }, desc = '[Y]ank [G]it link' },
+      { '<leader>gY', '<cmd>GitLink!<cr>', mode = { 'n', 'v' }, desc = 'Open [G]it link' },
     },
   },
   {
