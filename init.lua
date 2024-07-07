@@ -186,6 +186,12 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 -- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
+-- Controls size of splits
+vim.keymap.set('n', '<M-.>', '<C-w>5<', { desc = 'resize vertical split' })
+vim.keymap.set('n', '<M-,>', '<C-w>5>', { desc = 'resize vertical split' })
+vim.keymap.set('n', '<M-t>', '<C-W>+', { desc = 'resize horizontal split' })
+vim.keymap.set('n', '<M-s>', '<C-W>-', { desc = 'resize horizontal split' })
+
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
 --
@@ -230,6 +236,14 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
+  {
+    'vhyrro/luarocks.nvim',
+    priority = 1000,
+    config = true,
+    opts = {
+      rocks = { 'lua-curl', 'nvim-nio', 'mimetypes', 'xml2lua' },
+    },
+  },
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
@@ -379,7 +393,7 @@ require('lazy').setup({
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      -- vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
@@ -396,6 +410,10 @@ require('lazy').setup({
           previewer = false,
         })
       end, { desc = '[/] Fuzzily search in current buffer' })
+
+      vim.keymap.set('n', '<leader>sf', function()
+        builtin.find_files { hidden = true }
+      end, { desc = '[S]earch [F]iles' })
 
       -- It's also possible to pass additional configuration options.
       --  See `:help telescope.builtin.live_grep()` for information about particular keys
@@ -581,7 +599,13 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
         tsserver = {},
-        solargraph = {},
+        -- solargraph = {
+        --   settings = {
+        --     solargraph = {
+        --       commandPath = '/home/jp/.asdf/shims/solargraph',
+        --     },
+        --   },
+        -- },
         bashls = {},
         terraformls = {},
         jsonls = {},
@@ -868,6 +892,7 @@ require('lazy').setup({
         'yaml',
         'terraform',
         'javascript',
+        'graphql',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
