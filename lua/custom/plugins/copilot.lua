@@ -1,93 +1,95 @@
 return {
   {
-    'CopilotC-Nvim/CopilotChat.nvim',
-    version = 'v3.4.0',
+    'ravitemer/mcphub.nvim',
     dependencies = {
-      { 'nvim-telescope/telescope.nvim' }, -- Use telescope for help actions
-      { 'nvim-lua/plenary.nvim' },
-      { 'zbirenbaum/copilot.lua' },
+      'nvim-lua/plenary.nvim', -- Required for Job and HTTP requests
     },
-    build = 'make tiktoken',
+    -- cmd = "MCPHub", -- lazily start the hub when `MCPHub` is called
+    -- build = 'npm install -g mcp-hub@latest', -- Installs required mcp-hub npm module
     config = function()
-      local chat = require 'CopilotChat'
-      -- local actions = require 'CopilotChat.actions'
-      local select = require 'CopilotChat.select'
-      -- local integration = require 'CopilotChat.integrations.fzflua'
+      require('mcphub').setup {
+        -- Required options
+        port = 4000, -- Port for MCP Hub server
+        config = vim.fn.expand '~/.config/mcp/servers.json', -- Absolute path to config file
 
-      chat.setup {
-        model = 'claude-3.7-sonnet',
-        question_header = '## User ',
-        answer_header = '## Bot ',
-        error_header = '## Error',
-        selection = select.visual,
-        mappings = {
-          reset = {
-            normal = '',
-            insert = '',
-          },
-        },
-        prompts = {
-          Explain = {
-            mapping = '<leader>ae',
-            description = 'AI Explain',
-          },
-          Review = {
-            mapping = '<leader>ar',
-            description = 'AI Review',
-          },
-          Tests = {
-            mapping = '<leader>at',
-            description = 'AI Tests',
-          },
-          Fix = {
-            mapping = '<leader>af',
-            description = 'AI Fix',
-          },
-          Optimize = {
-            mapping = '<leader>ao',
-            description = 'AI Optimize',
-          },
-          Docs = {
-            mapping = '<leader>ad',
-            description = 'AI Documentation',
-          },
-          Commit = {
-            mapping = '<leader>ac',
-            description = 'AI Generate Commit',
-          },
+        -- Optional options
+        on_ready = function(hub)
+          -- Called on ready
+        end,
+        on_error = function(err)
+          -- Called on errors
+        end,
+        log = {
+          level = vim.log.levels.WARN,
+          to_file = false,
+          file_path = nil,
+          prefix = 'MCPHub',
         },
       }
-
-      -- vim.api.nvim_create_autocmd('BufEnter', {
-      --   pattern = 'copilot-*',
-      --   function()
-      --     vim.opt_local.relativenumber = false
-      --     vim.opt_local.number = false
-      --   end,
-      --   group = group,
-      -- })
-
-      vim.keymap.set('n', '<leader>aa', chat.toggle, { desc = 'AI Toggle' })
-      vim.keymap.set('v', '<leader>aa', chat.open, { desc = 'AI Open' })
-      vim.keymap.set('n', '<leader>ax', chat.reset, { desc = 'AI Reset' })
-      vim.keymap.set('n', '<leader>as', chat.stop, { desc = 'AI Stop' })
-      -- vim.keymap.set('n', '<leader>am', chat.select_model, { desc = 'AI Model' })
-      -- vim.keymap.set({ 'n', 'v' }, '<leader>ap', function()
-      --   integration.pick(actions.prompt_actions(), {
-      --     fzf_tmux_opts = {
-      --       ['-d'] = '45%',
-      --     },
-      --   })
-      -- end, { desc = 'AI Prompts' })
-      vim.keymap.set({ 'n', 'v' }, '<leader>aq', function()
-        vim.ui.input({
-          prompt = 'AI Question> ',
-        }, function(input)
-          if input and input ~= '' then
-            chat.ask(input)
-          end
-        end)
-      end, { desc = 'AI Question' })
     end,
+  },
+  {
+    'yetone/avante.nvim',
+    event = 'VeryLazy',
+    version = false, -- Never set this value to "*"! Never!
+    opts = {
+      -- add any opts here
+      -- for example
+      provider = 'copilot',
+      copilot = {
+        model = 'claude-3.5-sonnet',
+      },
+      system_prompt = function()
+        local hub = require('mcphub').get_hub_instance()
+        return hub:get_active_servers_prompt()
+      end,
+      custom_tools = function()
+        return {
+          require('mcphub.extensions.avante').mcp_tool(),
+        }
+      end,
+    },
+    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+    build = 'make',
+    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'stevearc/dressing.nvim',
+      'nvim-lua/plenary.nvim',
+      'MunifTanjim/nui.nvim',
+      --- The below dependencies are optional,
+      -- 'echasnovski/mini.pick', -- for file_selector provider mini.pick
+      'nvim-telescope/telescope.nvim', -- for file_selector provider telescope
+      'hrsh7th/nvim-cmp', -- autocompletion for avante commands and mentions
+      -- 'ibhagwan/fzf-lua', -- for file_selector provider fzf
+      'nvim-tree/nvim-web-devicons', -- or echasnovski/mini.icons
+      'zbirenbaum/copilot.lua', -- for providers='copilot'
+      'ravitemer/mcphub.nvim',
+      {
+        -- support for image pasting
+        'HakonHarnes/img-clip.nvim',
+        event = 'VeryLazy',
+        opts = {
+          -- recommended settings
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+            -- required for Windows users
+            use_absolute_path = true,
+          },
+        },
+      },
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { 'markdown', 'Avante' },
+        },
+        ft = { 'markdown', 'Avante' },
+      },
+    },
   },
 }
