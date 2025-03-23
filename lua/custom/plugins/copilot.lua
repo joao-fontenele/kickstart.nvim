@@ -41,7 +41,23 @@ return {
       },
       system_prompt = function()
         local hub = require('mcphub').get_hub_instance()
-        return hub:get_active_servers_prompt()
+        local mcp_prompt = hub:get_active_servers_prompt()
+
+        local custom_prompt = [[
+Act as an expert software developer.
+
+- If system or environment information is needed, request specific commands that would provide the necessary details
+- Think hard through the solution step-by-step before implementing
+- Minimize code comments unless explicitly requested
+- Verify current information through web search when accuracy is crucial
+- Keep responses concise and focused on the solution
+- Avoid including line numbers in code blocks
+- Avoid wrapping the whole response in triple backticks
+- You should generate short suggestions for the next user turns that are relevant to the conversation.
+
+]] .. mcp_prompt
+
+        return custom_prompt
       end,
       custom_tools = function()
         return {

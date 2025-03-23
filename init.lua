@@ -100,6 +100,9 @@ vim.g.have_nerd_font = false
 
 vim.opt.tabstop = 4
 
+-- for avante recommendation
+vim.opt.laststatus = 3
+
 -- Fold options: https://www.linux.com/training-tutorials/vim-tips-folding-fun/
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
@@ -348,6 +351,7 @@ require('lazy').setup({
         { '<leader>w', group = '[W]orkspace' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>a', group = 'Use the power of [A]I', mode = { 'n', 'v' } },
       },
     },
   },
@@ -743,6 +747,13 @@ require('lazy').setup({
       },
     },
   },
+  {
+    'zbirenbaum/copilot.lua',
+    config = function()
+      local copilot = require 'copilot'
+      copilot.setup {}
+    end,
+  },
 
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -852,13 +863,6 @@ require('lazy').setup({
           { name = 'path' },
         },
       }
-    end,
-  },
-  {
-    'zbirenbaum/copilot.lua',
-    config = function()
-      local copilot = require 'copilot'
-      copilot.setup {}
     end,
   },
   { -- You can easily change to a different colorscheme.
