@@ -103,6 +103,10 @@ vim.opt.tabstop = 4
 -- for avante recommendation
 vim.opt.laststatus = 3
 
+-- sets tab title to the last part of the current dir, instead of `nvim .`
+vim.opt.title = true
+vim.opt.titlestring = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+
 -- Fold options: https://www.linux.com/training-tutorials/vim-tips-folding-fun/
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'

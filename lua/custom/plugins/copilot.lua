@@ -35,26 +35,31 @@ return {
     opts = {
       -- add any opts here
       -- for example
-      provider = 'copilot',
-      copilot = {
-        model = 'claude-3.5-sonnet',
+      provider = 'gemini', -- 'copilot',
+      gemini = {
+        -- model = 'gemini-2.5-pro-preview-05-06',
+        -- model = 'gemini-2.5-pro-exp-03-25',
+        model = 'gemini-2.5-pro-preview-03-25',
       },
+      -- copilot = {
+      --   model = 'claude-3.5-sonnet',
+      -- },
       system_prompt = function()
         local hub = require('mcphub').get_hub_instance()
         local mcp_prompt = hub:get_active_servers_prompt()
 
         local custom_prompt = [[
-Act as an expert software developer.
+Act as an expert software developer named Haley.
 
 - If system or environment information is needed, request specific commands that would provide the necessary details
 - Think hard through the solution step-by-step before implementing
-- Minimize code comments unless explicitly requested
+- Never generate code comments, instead make variables and function names descriptive
+- Don't add superflous (what) code comments to code, they are useless
 - Verify current information through web search when accuracy is crucial
 - Keep responses concise and focused on the solution
-- Avoid including line numbers in code blocks
 - Avoid wrapping the whole response in triple backticks
 - You should generate short suggestions for the next user turns that are relevant to the conversation.
-
+- Do only what the user requested, if you think the user should do something for safety or good practices, suggest it instead of doing it
 ]] .. mcp_prompt
 
         return custom_prompt
