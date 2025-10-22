@@ -90,8 +90,11 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.opt.mouse = ''
+
 vim.o.spell = true
 vim.opt.spelllang = 'en'
+vim.opt.spelloptions = 'camel'
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
@@ -124,9 +127,6 @@ vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
 vim.o.relativenumber = true
-
--- Enable mouse mode, can be useful for resizing splits for example!
-vim.o.mouse = 'a'
 
 -- Don't show the mode, since it's already in the status line
 vim.o.showmode = false
@@ -840,13 +840,13 @@ require('lazy').setup({
       }
     end,
   },
-  {
-    'zbirenbaum/copilot.lua',
-    config = function()
-      local copilot = require 'copilot'
-      copilot.setup {}
-    end,
-  },
+  -- {
+  --   'zbirenbaum/copilot.lua',
+  --   config = function()
+  --     local copilot = require 'copilot'
+  --     copilot.setup {}
+  --   end,
+  -- },
   -- Spelling plugin using native neovim spell check
   {
     'ravibrock/spellwarn.nvim',

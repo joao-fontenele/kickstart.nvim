@@ -33,8 +33,8 @@ return {
     event = 'VeryLazy',
     version = false, -- Never set this value to "*"! Never!
     opts = {
-      -- provider = 'gemini',
-      provider = 'copilot',
+      provider = 'gemini',
+      -- provider = 'copilot',
       providers = {
         gemini = {
           model = 'gemini-2.5-pro-preview-06-05',
@@ -42,6 +42,7 @@ return {
         copilot = {
           model = 'claude-sonnet-4',
         },
+        claude = {},
       },
       -- add any opts here
       -- for example
