@@ -1,11 +1,7 @@
-local lspconfig = require 'lspconfig'
+vim.lsp.config('solargraph', {
+  cmd = { '/home/jp/.asdf/shims/solargraph', 'stdio' },
+})
 
-lspconfig.solargraph.setup {
-  settings = {
-    solargraph = {
-      commandPath = '/home/jp/.asdf/shims/solargraph',
-    },
-  },
-}
+vim.lsp.enable('solargraph')
 
 return {}
