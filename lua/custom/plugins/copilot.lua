@@ -39,9 +39,9 @@ return {
         gemini = {
           model = 'gemini-2.5-pro-preview-06-05',
         },
-        copilot = {
-          model = 'claude-sonnet-4',
-        },
+        -- copilot = {
+        --   model = 'claude-sonnet-4',
+        -- },
         claude = {},
       },
       -- add any opts here
@@ -98,7 +98,6 @@ return {
       'hrsh7th/nvim-cmp', -- autocompletion for avante commands and mentions
       -- 'ibhagwan/fzf-lua', -- for file_selector provider fzf
       'nvim-tree/nvim-web-devicons', -- or echasnovski/mini.icons
-      'zbirenbaum/copilot.lua', -- for providers='copilot'
       'ravitemer/mcphub.nvim',
       {
         -- support for image pasting

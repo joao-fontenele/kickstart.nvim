@@ -90,6 +90,13 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.filetype.add {
+  extension = {
+    mdx = 'mdx',
+  },
+}
+vim.treesitter.language.register('markdown', 'mdx')
+
 vim.opt.mouse = ''
 
 vim.o.spell = true
@@ -191,6 +198,9 @@ vim.o.confirm = true
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
+vim.keymap.set('n', '<leader>o', '<cmd>Obsidian<CR>', { desc = 'Obsidian: Open workspace' })
+vim.keymap.set('n', '<leader>so', '<cmd>Obsidian search<CR>', { desc = 'Obsidian: Search notes' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -555,9 +565,9 @@ require('lazy').setup({
       end, { desc = '[S]earch [/] in Open Files' })
 
       -- Shortcut for searching obsidian notes
-      vim.keymap.set('n', '<leader>so', function()
-        builtin.find_files { cwd = '~/workspace/personal/obsidian-default/' }
-      end, { desc = '[S]earch [O]bsidian notest' })
+      -- vim.keymap.set('n', '<leader>so', function()
+      --   builtin.find_files { cwd = '~/workspace/personal/obsidian-default/' }
+      -- end, { desc = '[S]earch [O]bsidian notest' })
 
       -- Shortcut for searching your Neovim configuration files
       vim.keymap.set('n', '<leader>sn', function()
@@ -840,13 +850,6 @@ require('lazy').setup({
       }
     end,
   },
-  -- {
-  --   'zbirenbaum/copilot.lua',
-  --   config = function()
-  --     local copilot = require 'copilot'
-  --     copilot.setup {}
-  --   end,
-  -- },
   -- Spelling plugin using native neovim spell check
   {
     'ravibrock/spellwarn.nvim',
@@ -1084,6 +1087,7 @@ require('lazy').setup({
         'lua',
         'luadoc',
         'markdown',
+        'markdown_inline',
         'vim',
         'vimdoc',
         'go',
@@ -1094,7 +1098,6 @@ require('lazy').setup({
         'terraform',
         'javascript',
         'graphql',
-        'markdown_inline',
         'query',
       },
       -- Autoinstall languages that are not installed
