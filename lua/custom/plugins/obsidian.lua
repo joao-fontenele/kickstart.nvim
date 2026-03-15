@@ -23,11 +23,20 @@ return {
   ---@module 'obsidian'
   ---@type obsidian.config.ClientOpts
   opts = {
+    ui = { enable = false }, -- conceallevel mangles chars around the replaced symbols, had to disable this feature
     legacy_commands = false,
     workspaces = {
       {
         name = 'default',
         path = '~/workspace/personal/obsidian-default',
+      },
+      {
+        name = 'personal',
+        path = '~/workspace/personal/personal-vault',
+      },
+      {
+        name = 'vt',
+        path = '~/workspace/personal/vt-vault',
       },
     },
   },
